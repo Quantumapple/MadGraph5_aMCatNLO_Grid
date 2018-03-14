@@ -1,0 +1,9 @@
+import DMsimp_s_spin1_MED_XMASS_PROC
+# Define multiparticle labels
+generate       p p  > y1    ,y1 > j j 
+add process    p p  > y1 j  ,y1 > j j 
+#add process    p p  > y1 j j,y1 > j j [QCD]
+output Vector_Dijet_LO_Mphi-MED_Mchi-XMASS_gSM-1p5_gDM-1p0_13TeV-madgraph
+
+
+

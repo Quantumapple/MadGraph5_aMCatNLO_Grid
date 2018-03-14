@@ -1,0 +1,8 @@
+import DMsimp_s_spin0_MED_XMASS_PROC-test
+# Define multiparticle labels
+generate       p p  > xd xd~ h   [QCD]
+add process    p p  > xd xd~ h j [QCD]
+output Scalar_MonoH_NLO_Mphi-MED_Mchi-XMASS_gSM-1p0_gDM-1p0_13TeV-madgraph
+
+
+

@@ -1,0 +1,8 @@
+#put card customizations here (change top and higgs mass for example)
+set param_card DIM6  1  1
+set param_card DIM6  2  0
+set param_card DIM6  3  1
+set param_card DIM6  4  0
+set param_card decay 25 auto
+set param_card decay 6000006 auto
+set param_card mass  6000006 10000

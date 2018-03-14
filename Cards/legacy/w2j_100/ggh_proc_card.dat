@@ -1,0 +1,7 @@
+import model loop_sm
+generate       p p  > mu- vm~ j    [QCD]
+add process    p p  > mu- vm~ j j  [QCD]
+add process    p p  > mu+ vm  j    [QCD]
+add process    p p  > mu+ vm  j j  [QCD]
+output wjj_ptW150_v2_100 -nojpeg
+

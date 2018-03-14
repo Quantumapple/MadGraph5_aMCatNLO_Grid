@@ -1,0 +1,7 @@
+import model loop_sm
+generate       p p  > mu- vm~ j    
+add process    p p  > mu- vm~ j j  
+add process    p p  > mu+ vm  j    
+add process    p p  > mu+ vm  j j  
+output wjjlo_ptW150_v2_100 -nojpeg
+

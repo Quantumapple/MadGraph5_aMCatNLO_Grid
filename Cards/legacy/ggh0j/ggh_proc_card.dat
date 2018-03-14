@@ -1,0 +1,6 @@
+import model loop_sm
+generate    p p > h     / w+ w- z a [QCD]
+#add process p p  > h j   / w+ w- z a [QCD]
+#add process g g  > h j j / w+ w- z a [QCD]
+output ggh0j_ptj20_v3 -nojpeg
+

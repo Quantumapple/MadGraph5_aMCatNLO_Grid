@@ -1,0 +1,5 @@
+import model loop_sm
+generate       p p  > vm vm~ j   
+add process    p p  > vm vm~ j j 
+output zjjlo_pt150_100 -nojpeg
+

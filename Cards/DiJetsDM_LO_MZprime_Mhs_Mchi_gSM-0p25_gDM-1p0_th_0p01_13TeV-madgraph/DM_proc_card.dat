@@ -1,0 +1,5 @@
+import ZpHiggs_UFO_MED_XHS_XMASS_PROC
+# Define multiparticle labels
+generate       p p > zp > j j hs, ( hs > dm dm )
+#add process p p > zp > j j j hs, ( hs > dm dm )
+output DiJetsDM_LO_MZprime-MED_Mhs-XHS_Mchi-XMASS_gSM-0p25_gDM-1p0_th_0p01_13TeV-madgraph

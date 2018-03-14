@@ -1,0 +1,4 @@
+import model loop_sm
+generate    p p  > a j / w+ w- z h 
+output ajlo_pt150_100 -nojpeg
+

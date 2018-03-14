@@ -1,0 +1,6 @@
+import model loop_sm
+generate       p p  > t t~      [QCD]
+add process    p p  > t t~ j    [QCD]
+#add process    p p  > t t~ j j  [QCD]
+output tj_Met500_v2_100 -nojpeg
+

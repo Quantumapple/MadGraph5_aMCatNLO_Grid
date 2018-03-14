@@ -1,0 +1,4 @@
+import model loop_sm
+generate    p p  > a j / w+ w- z h [QCD]
+output aj_pt500_100 -nojpeg
+
