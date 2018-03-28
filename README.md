@@ -51,15 +51,16 @@ Peripheral software status
 ## To-do
 
 1. Synchronize to latest gridpack production recepi in official twiki:
-⋅⋅* MG5 patches
-⋅⋅* MG5 release, 2.6.0 , different from Phil's ?
-⋅⋅* Correct LHAPDF set environmental path
-⋅⋅* Reweighting scheme? vary between processes?
-⋅⋅* MadSpin? iDM generation need latest Madspin treatment
+   - [ ] MG5 patches
+   - [ ] MG5 release, 2.6.0 , different from Phil's ?
+   - [ ] Correct LHAPDF set environmental path
+   - [ ] Reweighting scheme? vary between processes?
+   - [ ] MadSpin? iDM generation need latest Madspin treatment
+
 2. Gridpacker code:
-⋅⋅* Introduce specific parameter for different model
-⋅⋅* Some gridpack is not properly made, need in-depth review
-⋅⋅* Migrating to cmslpc ? make sure of condor submission facility?
-⋅⋅* Due to distintive variant of the model, a generic script is desired (Open)
-⋅⋅* Current code does not accommodate jet-matching feature (Open)
-⋅⋅* Need a dry run on NLO processes.
+   - [ ] Introduce specific parameter for different model
+   - [ ] Some gridpack is not properly made, need in-depth review
+   - [ ] Migrating to cmslpc ? make sure of condor submission facility?
+   - [ ] Due to distintive variant of the model, a generic script is desired (Open)
+   - [ ] Current code does not accommodate jet-matching feature (Open)
+   - [ ] Need a dry run on NLO processes.
