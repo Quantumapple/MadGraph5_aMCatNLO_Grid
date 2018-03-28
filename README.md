@@ -35,6 +35,8 @@ Model description
 | 406 | ZpHiggs_UFO | darkHiggs_MonoZp_LO_MZprime_Mhs_Mchi_13TeV-madgraph |
 | 407 | STripletBaryogen_X2N1_UFO | NonthDM_MonoJet_Mx_l1_l2_13TeV-madgraph |
 
+Peripheral software status
+
 | Models | order | jet-matching | madspin | SysCal | Reweighting |
 | --- | --- | --- | --- | --- | --- | 
 | pscalar_darkphoton_UFO | LO  | No | No | 1.1.0 | No |  
@@ -45,3 +47,19 @@ Model description
 | ZpHiggs_UFO | LO | No | No | 1.1.0 | No |  
 | ZpHiggs_UFO | LO | No | No | 1.1.0 | No |  
 | STripletBaryogen_X2N1_UFO | LO | No | No | 1.1.0 | No |
+
+## To-do
+
+1. Synchronize to latest gridpack production recepi in official twiki:
+   a. MG5 patches
+   b. MG5 release, 2.6.0 , different from Phil's ?
+   c. Correct LHAPDF set environmental path
+   d. Reweighting scheme? vary between processes?
+   e. MadSpin? iDM generation need latest Madspin treatment
+2. Gridpacker code:
+   a. Introduce specific parameter for different model
+   b. Some gridpack is not properly made, need in-depth review
+   c. Migrating to cmslpc ? make sure of condor submission facility?
+   d. Due to distintive variant of the model, a generic script is desired (Open)
+   e. Current code does not accommodate jet-matching feature (Open)
+   f. Need a dry run on NLO processes.
