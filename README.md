@@ -7,7 +7,7 @@ Packages for generating gridpacks.
 Log into lxplus machine, clone a copy of the package in a clean directory
 
 ```
-git clone -b cmslpc-branch git@github.com:SiewYan/MadGraph5_aMCatNLO_Grid.git
+git clone -b gridpacker git@github.com:SiewYan/MadGraph5_aMCatNLO_Grid.git
 ```
 
 ## Produce gridpack
@@ -15,10 +15,10 @@ git clone -b cmslpc-branch git@github.com:SiewYan/MadGraph5_aMCatNLO_Grid.git
 To produce gridpack, do
 
 ```
-./install.py --carddir Cards/psdcalar_darkphoton_13TeV-madgraph --proc 702 --dm 10 --med 50
+./install.py --carddir Cards/psdcalar_LO_darkphoton_13TeV-madgraph --proc 400 --med 50 --dm 3 --runcms runcmsgrid_LO.sh
 ```
 
-Examples are show (here)[https://github.com/SiewYan/MadGraph5_aMCatNLO_Grid/blob/cmslpc-branch/submit.sh]
+Examples are show (here)[https://github.com/SiewYan/MadGraph5_aMCatNLO_Grid/blob/gridpacker/submit.sh]
 
 ## Ported model
 
