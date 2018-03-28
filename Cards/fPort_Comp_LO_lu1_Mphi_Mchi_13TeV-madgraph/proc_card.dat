@@ -1,0 +1,6 @@
+import model Fermion_Portal_Complex_UFO_MED_XMASS_PROC
+define fp = qu qd
+define fp~ = qu~ qd~
+generate p p > sve sve~ j dmscalar=0 dmpscalar=1 dmvector=0 dmpvector=0 @1
+#add process p p > fp fp~, (fp > sve~ j), (fp~ > sve j) dmscalar=0 dmpscalar=1 dmvector=0 dmpvector=0 @2
+output fPort_comp_lu1_phi-MED_chi-XMASS

@@ -1,0 +1,6 @@
+#put card customizations here (change top and higgs mass for example)
+set param_card mass  6000001 MED          # MX1
+set param_card mass  6000002 8.000000e+03 # MX2
+set param_card mass  5000001 9.380000e-01 # Mn
+set param_card decay 6000001 2.434536e+00 # WX1
+set param_card decay 6000002 7.160000e+00 # WX2 

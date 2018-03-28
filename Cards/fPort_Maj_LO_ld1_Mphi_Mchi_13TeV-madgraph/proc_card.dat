@@ -1,0 +1,8 @@
+import model Fermion_Portal_Majorana_UFO_MED_XMASS_PROC
+define fp = ur cr dr sr
+define fp~ = ur~ cr~ dr~ sr~
+generate  p p > n1 n1 j dmscalar=0 dmpscalar=0 dmvector=0 dmpvector=1 @1
+add process p p > fp fp~, (fp > n1 j), (fp~ > n1 j) dmscalar=0 dmpscalar=0 dmvector=0 dmpvector=1 @2
+add process p p > fp fp, (fp > n1 j) dmscalar=0 dmpscalar=0 dmvector=0 dmpvector=1 @3
+add process p p > fp~ fp~, (fp~ > n1 j) dmscalar=0 dmpscalar=0 dmvector=0 dmpvector=1 @4
+output fPort_maj_ld1_phi-MED_chi-XMASS

@@ -1,0 +1,14 @@
+#put card customizations here (change top and higgs mass for example)
+set param_card mass  2000001 DIRAC
+set param_card mass  2000002 DIRAC
+set param_card mass  2000003 DIRAC
+set param_card mass  2000004 DIRAC
+set param_card mass  2000005 DIRAC
+set param_card mass  2000006 DIRAC
+set param_card mass  18 XMASS
+set param_card decay 2000001 2.57831e+00
+set param_card decay 2000002 2.57831e+00
+set param_card decay 2000003 2.57831e+00
+set param_card decay 2000004 2.57831e+00
+set param_card decay 2000005 2.57831e+00
+set param_card decay 2000006 2.57831e+00

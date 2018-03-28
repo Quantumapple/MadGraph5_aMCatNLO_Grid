@@ -8,7 +8,7 @@ from optparse import OptionParser
 import argparse
 import random
 
-eos='/afs/cern.ch/project/eos/installation/0.3.84-aquamarine/bin/eos.select'
+#eos='/afs/cern.ch/project/eos/installation/0.3.84-aquamarine/bin/eos.select'
 #MGrelease="2_5_2"
 MGrelease="2_5_1"
 #MGrelease="2_4_3"
@@ -32,6 +32,7 @@ def completed(name,medrange,dmrange,basedir,carddir):
     return completed
 
 def replace(name,med,dm,gdm,gq,proc,rand,directory):
+    print "proc = ", proc
     #Avoid restrict cards
     if gq == 1:
         gq=9.999999e-1
@@ -56,7 +57,10 @@ def replace(name,med,dm,gdm,gq,proc,rand,directory):
     gPb=gq*(80.19)*math.sqrt(3.1419265/132.5/(1-0.233))
     gSinTheta=gq
     gH=1
-    print "!!!!!!!!!!!!!!!!",gdm,med,dm,gq,gdmS,gdmP
+
+    if proc > 800 and proc < 807:
+        print "!!!!!!!!!!!!!!!!",gdm,med,dm,gq,gdmS,gdmP
+        
     if proc == 805:
         gqP=0#1e-99
         gdmP=0#1e-99
@@ -88,7 +92,7 @@ def replace(name,med,dm,gdm,gq,proc,rand,directory):
         gPw=0
         gPb=0
         gSinTheta=0
-    else:
+    else: # turn off all unrelated parameter for non-DMSimp
         gqS=0
         gdmS=0
         gqP=0
@@ -100,43 +104,146 @@ def replace(name,med,dm,gdm,gq,proc,rand,directory):
         gPw=0
         gPb=0
         gSinTheta=0
-    print "!!!!!!!!!!!!!!!!",gdm,med,dm,gq,gdmS,gdmP
+        
+    if proc > 800 and proc < 807: #DMsimp
+        print "!!!!!!!!!!!!!!!!",gdm,med,dm,gq,gdmS,gdmP
+    elif proc == 400: #pseudoscalar dark photon
+        print 'Process code : %s ; med = %s ; dm = %s' %(proc,med,dm)
+    elif proc == 401: #iDM dark photon
+        hdm = 50
+        print 'Process code : %s ; med = %s ; dm = %s ; hdm = %s' %(proc,med,dm,hdm)
+    elif proc > 401 and proc < 405: #Fermion portal
+        lu=gdm
+        ld=gq
+        ls=0
+        lc=0
+        lt=0
+        lb=0
+        print 'Process code : %s ; med = %s ; dm = %s ; lu = %s ; ld = %s ; ls = %s ; lc = %s ; lt = %s ; lb = %s' %(proc,med,dm,lu,ld,ls,lc,lt,lb)
+    elif proc == 405 or proc == 406: #dark Higgs
+        hdm = 50
+        theta = 0.01
+        print 'Process code : %s ; med = %s ; dm = %s ; hdm = %s' %(proc,med,dm,hdm)
+    elif proc == 407: #non-thermal dark matter
+        hdm = 8000
+        lam1 = gdm
+        lam2 = gq
+        print 'Process code : %s ; med = %s ; dm = %s ; hdm = %s ; lam1 = %s ; lam2 = %s' %(proc,med,dm,hdm,lam1,lam2)
+
     parameterfiles = [ f for f in listdir(directory) if isfile(join(directory,f)) ]    
     for f in parameterfiles:
          with open('%s/%s_tmp' % (directory,f),"wt") as fout: 
             with open(directory+'/'+f        ,"rt") as fin: 
                 for line in fin:
-                    tmpline =    line.replace('X_MMED_X' ,str(med))
-                    tmpline = tmpline.replace('X_MMED2_X',str(max(med,400.)))
-                    tmpline = tmpline.replace('X_MDM_X' ,str(float(dm)))
-                    tmpline = tmpline.replace('X_gS_X'  ,str(gqS))
-                    tmpline = tmpline.replace('X_gP_X'  ,str(gqP))
-                    tmpline = tmpline.replace('X_gDMS_X',str(gdmS))
-                    tmpline = tmpline.replace('X_gDMP_X',str(gdmP))
-                    tmpline = tmpline.replace('X_gV_X'  ,str(gqV))
-                    tmpline = tmpline.replace('X_gA_X'  ,str(gqA))
-                    tmpline = tmpline.replace('X_gVii_X',str(gqVii))
-                    tmpline = tmpline.replace('X_gAii_X',str(gqAii))
-                    tmpline = tmpline.replace('X_gDMV_X',str(gdmV))
-                    tmpline = tmpline.replace('X_gDMA_X',str(gdmA))
-                    tmpline = tmpline.replace('X_gSw_X' ,str(gSw))
-                    tmpline = tmpline.replace('X_gPw_X' ,str(gPw))
-                    tmpline = tmpline.replace('X_gSb_X' ,str(gSb))
-                    tmpline = tmpline.replace('X_gPb_X' ,str(gPb))
-                    tmpline = tmpline.replace('X_gDMA_X',str(gdmA))
-                    tmpline = tmpline.replace('X_sintheta_X',str(gSinTheta))
-                    tmpline = tmpline.replace('X_gH_X',str(gH))
-                    tmpline = tmpline.replace('MED'     ,str(med))
-                    tmpline = tmpline.replace('XMASS'   ,str(dm))
-                    tmpline = tmpline.replace('PROC'    ,str(proc))
-                    tmpline = tmpline.replace('RAND'    ,str(rand))
+                    if proc > 800 and proc < 807: #DMSImp
+                        tmpline =    line.replace('X_MMED_X' ,str(med))
+                        tmpline = tmpline.replace('X_MMED2_X',str(max(med,400.)))
+                        tmpline = tmpline.replace('X_MDM_X' ,str(float(dm)))
+                        tmpline = tmpline.replace('X_gS_X'  ,str(gqS))
+                        tmpline = tmpline.replace('X_gP_X'  ,str(gqP))
+                        tmpline = tmpline.replace('X_gDMS_X',str(gdmS))
+                        tmpline = tmpline.replace('X_gDMP_X',str(gdmP))
+                        tmpline = tmpline.replace('X_gV_X'  ,str(gqV))
+                        tmpline = tmpline.replace('X_gA_X'  ,str(gqA))
+                        tmpline = tmpline.replace('X_gVii_X',str(gqVii))
+                        tmpline = tmpline.replace('X_gAii_X',str(gqAii))
+                        tmpline = tmpline.replace('X_gDMV_X',str(gdmV))
+                        tmpline = tmpline.replace('X_gDMA_X',str(gdmA))
+                        tmpline = tmpline.replace('X_gSw_X' ,str(gSw))
+                        tmpline = tmpline.replace('X_gPw_X' ,str(gPw))
+                        tmpline = tmpline.replace('X_gSb_X' ,str(gSb))
+                        tmpline = tmpline.replace('X_gPb_X' ,str(gPb))
+                        tmpline = tmpline.replace('X_gDMA_X',str(gdmA))
+                        tmpline = tmpline.replace('X_sintheta_X',str(gSinTheta))
+                        tmpline = tmpline.replace('X_gH_X',str(gH))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC'    ,str(proc))
+                        tmpline = tmpline.replace('RAND'    ,str(rand))
+                    elif proc == 400: #psdcalar_darkphoton
+                        tmpline =    line.replace('X_MZP_X'  , str(dm))
+                        tmpline = tmpline.replace('X_MPS_X'   , str(med))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC' ,str(proc))
+                        tmpline = tmpline.replace('RAND'    ,str(rand))
+                    elif proc == 401: #iDM
+                        tmpline =    line.replace('X_MZDINPUT_X'  , str(med))
+                        tmpline = tmpline.replace('X_DMCHI_X'  , str(hdm))
+                        tmpline = tmpline.replace('X_MCHI_X'   , str(dm))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XHS'     ,str(hdm))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC' ,str(proc))
+                        tmpline = tmpline.replace('RAND'    ,str(rand))
+                    elif proc == 402: #Fermion_Portal_Complex
+                        tmpline =    line.replace('X_COMPLEX_X'  , str(med))
+                        tmpline = tmpline.replace('X_MDM_X'   , str(dm))
+                        tmpline = tmpline.replace('X_LU_X'   , str(lu))
+                        tmpline = tmpline.replace('X_LD_X'   , str(ld))
+                        tmpline = tmpline.replace('X_LS_X'   , str(ls))
+                        tmpline = tmpline.replace('X_LC_X'   , str(lc))
+                        tmpline = tmpline.replace('X_LT_X'   , str(lt))
+                        tmpline = tmpline.replace('X_LB_X'   , str(lb))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC' ,str(proc))
+                        tmpline = tmpline.replace('RAND'    ,str(rand))
+                    elif proc == 403: #Fermion_Portal_Dirac
+                        tmpline =    line.replace('X_DIRAC_X'  , str(med))
+                        tmpline = tmpline.replace('X_MDM_X'   , str(dm))
+                        tmpline = tmpline.replace('X_LU_X'   , str(lu))
+                        tmpline = tmpline.replace('X_LD_X'   , str(ld))
+                        tmpline = tmpline.replace('X_LS_X'   , str(ls))
+                        tmpline = tmpline.replace('X_LC_X'   , str(lc))
+                        tmpline = tmpline.replace('X_LT_X'   , str(lt))
+                        tmpline = tmpline.replace('X_LB_X'   , str(lb))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC' ,str(proc))
+                        tmpline = tmpline.replace('RAND'    ,str(rand))
+                    elif proc == 404: #Fermion_Portal_Majorana
+                        tmpline =    line.replace('X_MAJORANA_X'  , str(med))
+                        tmpline = tmpline.replace('X_MDM_X'   , str(dm))
+                        tmpline = tmpline.replace('X_LU_X'   , str(lu))
+                        tmpline = tmpline.replace('X_LD_X'   , str(ld))
+                        tmpline = tmpline.replace('X_LS_X'   , str(ls))
+                        tmpline = tmpline.replace('X_LC_X'   , str(lc))
+                        tmpline = tmpline.replace('X_LT_X'   , str(lt))
+                        tmpline = tmpline.replace('X_LB_X'   , str(lb))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC' ,str(proc))
+                        tmpline = tmpline.replace('RAND'    ,str(rand))
+                    elif proc == 405 or proc == 406: #dark Higgs 
+                        tmpline = line.replace('X_gQ_X'   , str(gq))
+                        tmpline = tmpline.replace('X_gX_X'   , str(gdm))
+                        tmpline = tmpline.replace('X_tH_X'   , str(theta))
+                        tmpline = tmpline.replace('X_MZP_X'  , str(med))
+                        tmpline = tmpline.replace('X_MHS_X'  , str(hdm))
+                        tmpline = tmpline.replace('X_MX_X'   , str(dm))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XHS'     ,str(hdm))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC' ,str(proc))
+                    elif proc == 407: #non-thermal dark matter
+                        tmpline = line.replace('X_LAM1_X'   , str(lam1))
+                        tmpline = tmpline.replace('X_LAM2_X'   , str(lam2))
+                        tmpline = tmpline.replace('X_MX1_X'  , str(med))
+                        tmpline = tmpline.replace('X_MX2_X'  , str(hdm))
+                        tmpline = tmpline.replace('X_MDM_X'   , str(dm))
+                        tmpline = tmpline.replace('MED'     ,str(med))
+                        tmpline = tmpline.replace('XHS'     ,str(hdm))
+                        tmpline = tmpline.replace('XMASS'   ,str(dm))
+                        tmpline = tmpline.replace('PROC' ,str(proc))
+                    
                     fout.write(tmpline)
          os.system('mv %s/%s_tmp %s/%s'%(directory,f,directory,f))
  
 def fileExists(user,filename):
    sc=None
    #print '%s ls eos/cms/store/user/%s/gridpack/%s | wc -l' %(eos,user,filename)
-   exists = commands.getoutput('%s ls eos/cms/store/user/%s/gridpack/%s | wc -l' %(eos,user,filename)  )
+   exists = commands.getoutput('ls /eos/user/%s/%s/gridpacks/%s | wc -l' %(user[0],user,filename)  )
    if len(exists.splitlines()) > 1: 
       exists = exists.splitlines()[1]
    else:
@@ -144,7 +251,7 @@ def fileExists(user,filename):
    #print exists
    return int(exists) == 1
 
-def loadRestrict(iFile):
+def loadRestrict(iFile,proc):
     #print iFile
     inputfile =  open(iFile)
     pairs=[]
@@ -152,36 +259,46 @@ def loadRestrict(iFile):
         if line.find("#") > -1:
             continue
         tmpline=line.replace("\n","").replace(" ","").replace("\t","")
-        lX = tmpline.split(":")[0]
+        lX = tmpline.split(":")[0] 
+        if lX=='null':
+            lX=0
         lY = tmpline.split(":")[1].split(",")
         for pY in lY:
             pairs.append([int(pY),int(lX)])
     return pairs
-
+ 
 def checkRestrict(iRestrict,iMMED,iMDM):
     for pair in iRestrict:
-        if iMMED == pair[0] and iMDM == pair[1]:
+        if pair[0] == 0:
+            if iMDM == pair[1]:
+                return True
+        elif iMMED == pair[0] and iMDM == pair[1]:
             return True
     return False
 
 aparser = argparse.ArgumentParser(description='Process benchmarks.')
-aparser.add_argument('-carddir','--carddir'   ,action='store',dest='carddir',default='Cards/Axial_MonoTop_NLO_Mphi_Mchi_gSM-0p25_gDM-1p0_13TeV-madgraph'   ,help='carddir')
+aparser.add_argument('-carddir','--carddir'   ,action='store',dest='carddir',default=''   ,help='carddir')
 aparser.add_argument('-q'      ,'--queue'      ,action='store',dest='queue'  ,default='2nw'                   ,help='queue')
-aparser.add_argument('-dm'      ,'--dmrange'   ,dest='dmrange' ,nargs='+',type=int,default=[1,5,10,50,75,100,150,200,300,400,350,450,500,600,700,1000,3000,4000],help='mass range')
-aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[10,20,50,100,125,150,200,300,350,400,500,750,1000,1250,1500,1750,2000,2250,2500,3000,3500,4000,4500,5000,6000,7000,8000,10000],help='mediator range')
-#aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[4000,4500,5000,5500,6000,7000,8000,10000],help='mediator range')
-aparser.add_argument('-proc'    ,'--proc'      ,dest='procrange',nargs='+',type=int,     default=[805],help='proc')
+aparser.add_argument('-dm'      ,'--dmrange'   ,dest='dmrange' ,nargs='+',type=int,default=[0],help='mass range')
+aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[],help='mediator range')
+aparser.add_argument('-proc'    ,'--proc'      ,dest='procrange',nargs='+',type=int,     default=[],help='proc')
 aparser.add_argument('-gq'      ,'--gq'        ,dest='gq',nargs='+',type=float,      default=[1.0],help='gq')
 aparser.add_argument('-gdm'     ,'--gdm'       ,dest='gdm',nargs='+',type=float,     default=[1.0],help='gdm')
 aparser.add_argument('-resubmit','--resubmit'  ,type=bool      ,dest='resubmit',default=False,help='resubmit')
 aparser.add_argument('-install' ,'--install'   ,type=bool      ,dest='install' ,default=True ,help='install MG')
 aparser.add_argument('-runcms'  ,'--runcms'    ,action='store' ,dest='runcms'  ,default='runcmsgrid_NLO.sh',help='runcms')
 aparser.add_argument('-release' ,'--release'    ,action='store' ,dest='release'  ,default='2_6_0',help='MG version')
+#Reserve for fermion Portal
+aparser.add_argument('-glu'      ,'--glu'        ,dest='glu',nargs='+',type=float,      default=[1.0],help='glu')
+aparser.add_argument('-gld'     ,'--gld'       ,dest='gld',nargs='+',type=float,     default=[0.0],help='gld')
+#Reserve for iDM dark Photon and dark Higgs
+aparser.add_argument('-hdm' ,'--hdmrange' ,dest='hdmrange' ,nargs='+',type=int,default=[50],help='dark higgs mass range')
+#Reserve for Nonthermal dark matter 
+aparser.add_argument('-glam1'      ,'--glam1'        ,dest='glam1',nargs='+',type=float,      default=[1.0],help='glam1')
+aparser.add_argument('-glam2'     ,'--glam2'       ,dest='glam2',nargs='+',type=float,     default=[1.0],help='glam2')
 
 args1 = aparser.parse_args()
 MGrelease=args1.release
-
-#print args1.carddir,args1.queue,args1.dmrange,args1.medrange,args1.install
 
 user=pwd.getpwuid( os.getuid() ).pw_name
 basedir=os.getcwd()
@@ -199,7 +316,15 @@ spin = [f for f in parameterfiles if f.find('madspin')   > -1]
 rwgt = [f for f in parameterfiles if f.find('reweight')  > -1]
 rtct = [f for f in parameterfiles if f.find('mass')      > -1]
 
+testproc = args1.procrange[0]
+
+#Redundant
+#if testproc > 401 and testproc < 405: #Fermion Portal model
+#    procnamebase = commands.getoutput('cat %s | grep fPort | awk \'{print $2}\' ' % (basedir+'/'+args1.carddir+'/'+proc[0]))
+#else:
 procnamebase = commands.getoutput('cat %s | grep output | awk \'{print $2}\' ' % (basedir+'/'+args1.carddir+'/'+proc[0]))
+
+print "Procnamebase =  %s"  % procnamebase
 
 ##Start with the basics download Madgraph and add the options we care  :
 if not args1.resubmit and args1.install:
@@ -214,7 +339,6 @@ if not args1.resubmit and args1.install:
 
 os.chdir (('%s_MG5_aMC_v'+MGrelease) % procnamebase)
 
-#print "MG config :",mgcf[0],"ProcName : ",procnamebase
 if not args1.resubmit and args1.install:
     os.system("cp "+basedir+"/"+args1.carddir+"/%s ." % mgcf[0])
     #os.system("cp /afs/cern.ch/work/b/bmaier/public/xMadGraph243/lhe_parser.py ./madgraph/various/")
@@ -222,7 +346,9 @@ if not args1.resubmit and args1.install:
     os.system("./bin/mg5_aMC %s" % mgcf[0])
 
 ##Now build the directories iterating over options
+
 random.seed(1)
+#This is expected not to pass
 for f in parameterdir:
     if f.find('model') == -1:
         continue
@@ -233,16 +359,22 @@ for f in parameterdir:
     os.system('cp param_card.dat restrict_test.dat')
     os.chdir(('%s/%s_MG5_aMC_v'+MGrelease) % (basedir,procnamebase))
 
-restrict = loadRestrict(basedir+"/"+args1.carddir+"/"+rtct[0])
+restrict = loadRestrict(basedir+"/"+args1.carddir+"/"+rtct[0],testproc)
+
+print "****************************************************"
+print "Model : %s" %parameterdir[0]
+print "****************************************************"
 
 #Loop
 for med    in args1.medrange:
     for dm in args1.dmrange:
+        #print 'restrict= %s ; med = %s ; dm = %s' %(restrict,med,dm)
         if not checkRestrict(restrict,med,dm):
+            print "Restricted phase space, abort!"
             continue
         tmpMed = med
         tmpDM  = dm 
-        if med == 2*dm:
+        if med == 2*dm: #avoid generator instability
             tmpDM = dm-10
         for pProc in args1.procrange:
             rand=random.randrange(1000,9999,1)
@@ -251,9 +383,20 @@ for med    in args1.medrange:
                 for f in parameterdir:
                     os.system('cp -r %s/%s/%s models/%s_%s_%s_%s' % (basedir,args1.carddir,f,f,tmpMed,tmpDM,pProc))
                     os.system('echo cp -r %s/%s/%s models/%s_%s_%s' % (basedir,args1.carddir,f,f,tmpMed,tmpDM))
-                    print "!!!!!",args1.gdm[0],args1.gq[0]
-                    replace(procnamebase,tmpMed,tmpDM,args1.gdm[0],args1.gq[0],pProc,rand,'models/%s_%s_%s_%s' % (f,tmpMed,tmpDM,pProc))
+                    #overriding gdm,gq
+                    if pProc > 401 and pProc < 405:
+                        print "Coupling choice set at glu = %s ; gld = %s" %(args1.glu[0],args1.gld[0])
+                        replace(procnamebase,tmpMed,tmpDM,args1.glu[0],args1.gld[0],pProc,rand,'models/%s_%s_%s_%s' % (f,tmpMed,tmpDM,pProc))
+                    elif pProc == 407:
+                        print "Coupling choice set at glam1 = %s ; glam2 = %s" %(args1.glam1[0],args1.glam2[0])
+                        replace(procnamebase,tmpMed,tmpDM,args1.glam1[0],args1.glam2[0],pProc,rand,'models/%s_%s_%s_%s' % (f,tmpMed,tmpDM,pProc))
+                    else:
+                        print "Coupling choice set at gdm = %s ; gq = %s" %(args1.gdm[0],args1.gq[0])
+                        replace(procnamebase,tmpMed,tmpDM,args1.gdm[0],args1.gq[0],pProc,rand,'models/%s_%s_%s_%s' % (f,tmpMed,tmpDM,pProc))
+
+
                     os.chdir('models/%s_%s_%s_%s' % (f,tmpMed,tmpDM,pProc))
+                    
                     os.system('python write_param_card.py')
                     os.system('cp param_card.dat restrict_test.dat')
                     os.chdir(('%s/%s_MG5_aMC_v'+MGrelease) % (basedir,procnamebase))
@@ -265,6 +408,8 @@ for med    in args1.medrange:
                             for line in fin:
                                 tmpline =    line.replace('MED'  ,str(tmpMed))
                                 tmpline = tmpline.replace('XMASS',str(tmpDM))
+                                if pProc == 401 or pProc == 405 or pProc == 406:
+                                    tmpline = tmpline.replace('XHS' ,str(args1.hdmrange[0]))
                                 tmpline = tmpline.replace('PROC' ,str(pProc))
                                 tmpline = tmpline.replace('RAND' ,str(random.randrange(1000,9999,1)))
                                 fout.write(tmpline)
@@ -381,10 +526,15 @@ for med    in args1.medrange:
                 output  ='%s_tarball.tar.xz'                    % (procname)
                 job_file.write('XZ_OPT="--lzma2=preset=9,dict=512MiB" tar -cJpsf '+output+' mgbasedir process runcmsgrid.sh \n')
                 #job_file.write(('cp -r %s  %s/%s_MG5_aMC_v'+MGrelease+'/         \n') % (output,basedir,procnamebase))
-                job_file.write(('%s rm  eos/cms/store/user/%s/gridpack/%s  \n') % (eos,user,output))
-                job_file.write(('cp %s   /eos/cms/store/user/%s/gridpack/%s  \n') % (output,user,output))
+
+                job_file.write(('mkdir -p /eos/user/%s/%s/gridpacks \n') % (user[0],user))
+                job_file.write(('rm  /eos/user/%s/%s/gridpacks/%s  \n') % (user[0],user,output))
+                job_file.write(('cp %s   /eos/user/%s/%s/gridpacks/%s  \n') % (output,user[0],user,output))
                 job_file.close()
                 os.chmod(('%s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh')             % (basedir,procnamebase,procname),0777)
+                print '%s' %basedir
+                print '%s' %procnamebase
+                print '%s' %procname
             if os.path.isfile(('%s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh')        % (basedir,procnamebase,procname)):
                 #print "Looking",('%s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh')      % (basedir,procnamebase,procname)
                 #print "Loooking More",('%s/%s_MG5_aMC_v'+MGrelease+'/%s_tarball.tar.xz') % (basedir,procnamebase,procname)
@@ -394,7 +544,8 @@ for med    in args1.medrange:
                     os.system(('echo bsub -q  %s -R "rusage[mem=12000]" %s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh') % (args1.queue,basedir,procnamebase,procname))
                     os.system(('bsub -q  %s -R "rusage[mem=12000]" %s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh') % (args1.queue,basedir,procnamebase,procname))
 
-
+print "Gridpack will be generated here once the job is finished :"
+print "/eos/user/%s/%s/gridpacks/%s" % (user[0],user,output)
            
 #while not completed(args1.name,args1.medrange,args1.dmrange,basedir,args1.carddir):
 #    print "Waiting ",datetime.datetime.now().strftime("%Y-%m-%d %H:%M")

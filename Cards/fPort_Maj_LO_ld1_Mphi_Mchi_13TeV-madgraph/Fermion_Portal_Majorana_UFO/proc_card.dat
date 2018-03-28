@@ -1,0 +1,47 @@
+#!/bin/sh
+#************************************************************
+#*                        MadGraph 5                        *
+#*                                                          *
+#*                *                       *                 *
+#*                  *        * *        *                   *
+#*                    * * * * 5 * * * *                     *
+#*                  *        * *        *                   *
+#*                *                       *                 *
+#*                                                          *
+#*                                                          *
+#*    The MadGraph Development Team - Please visit us at    *
+#*    https://server06.fynu.ucl.ac.be/projects/madgraph     *
+#*                                                          *
+#************************************************************
+#*                                                          *
+#*               Command File for MadGraph 5                *
+#*                                                          *
+#*     run as ./bin/mg5  filename                           *
+#*                                                          *
+#************************************************************
+#import model sm
+import model FermionPortal/FermionPortalMajorana/Fermion_Portal_Majorana_UFO --modelname
+#import model FermionPortal/FermionPortalDirac/Fermion_Portal_Dirac_UFO --modelname
+# Define multiparticle labels
+define p = g u c d s u~ c~ d~ s~
+define j = g u c d s u~ c~ d~ s~
+define l+ = e+ mu+
+define l- = e- mu-
+define vl = ve vm vt
+define vl~ = ve~ vm~ vt~
+# Specify process(es) to run
+#generate p p > e- ve~ @1
+generate p p > chi chi j dmscalar=0 dmpscalar=0 dmvector=0 dmpvector=1 @1
+add process p p > chi chi j j dmscalar=0 dmpscalar=0 dmvector=0 dmpvector=1 @2
+#generate p p > n1 n1 j @1
+#add process p p > e- ve~ j @2
+#add process p p > t t~ @3
+# Output processes to MadEvent directory
+output fport_maj_av_lu1_phi1500_chi10_jpt20_jpt1min80_addjj_50k
+launch fport_maj_av_lu1_phi1500_chi10_jpt20_jpt1min80_addjj_50k
+# This will create a directory PROC_
+# If you want to specify the path/name of the directory use
+# output PATH
+
+# To generate events, you can go to the created directory and
+# run ./bin/generate_events

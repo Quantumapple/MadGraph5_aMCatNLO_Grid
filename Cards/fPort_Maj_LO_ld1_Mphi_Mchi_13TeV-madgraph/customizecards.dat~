@@ -1,0 +1,14 @@
+#put card customizations here (change top and higgs mass for example)
+set param_card mass  2000001 MAJORANA
+set param_card mass  2000002 MAJORANA
+set param_card mass  2000003 MAJORANA
+set param_card mass  2000004 MAJORANA
+set param_card mass  2000005 MAJORANA
+set param_card mass  2000006 MAJORANA
+set param_card mass  1000022 XMASS
+#set param_card decay 2000001 1.40375e+01
+#set param_card decay 2000002 1.40375e+01
+#set param_card decay 2000003 1.40375e+01
+#set param_card decay 2000004 1.40375e+01
+#set param_card decay 2000005 1.40375e+01
+#set param_card decay 2000006 1.40375e+01

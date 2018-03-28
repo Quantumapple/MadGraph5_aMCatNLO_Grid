@@ -1,0 +1,5 @@
+#put card customizations here
+set param_card dm Mchi XMASS
+set param_card dm dMchi XHS
+set param_card hidden mZDinput MED
+set param_card decay Wchi2 1.970000e-15
