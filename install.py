@@ -207,10 +207,10 @@ aparser.add_argument('-q'      ,'--queue'      ,action='store',dest='queue'  ,de
 #aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[50,100,300,500,1000,1500,2000,2500,3000],help='zprime mass range')
 
 #BBbar
-aparser.add_argument('-dm'      ,'--dmrange'   ,dest='dmrange' ,nargs='+',type=int,default=[400],help='dark matter mass range')
+aparser.add_argument('-dm'      ,'--dmrange'   ,dest='dmrange' ,nargs='+',type=int,default=[50,100,150,200,250,300,400],help='dark matter mass range')
 aparser.add_argument('-hdm'      ,'--hdmrange'   ,dest='hdmrange' ,nargs='+',type=int,default=[50],help='dark higgs mass range') #50,70,90
-#aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[500,1000,1500,2000,2500],help='zprime mass range')
-aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[1000],help='zprime mass range')
+aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[500,1000,1500,2000,2500,3000],help='zprime mass range')
+#aparser.add_argument('-med'     ,'--medrange'  ,dest='medrange',nargs='+',type=int,default=[1000],help='zprime mass range')
 
 aparser.add_argument('-proc'    ,'--proc'      ,dest='procrange',nargs='+',type=int,     default=[700],help='proc')
 aparser.add_argument('-gq'      ,'--gq'        ,dest='gq',nargs='+',type=float,      default=[0.25],help='gq')
@@ -267,10 +267,12 @@ random.seed(1)
 for f in parameterdir:
     if f.find('model') == -1:
         continue
+    print "pass here"
     os.system('echo cp -r %s/%s/%s models/%s' % (basedir,args1.carddir,f,f))
     os.system('cp -r %s/%s/%s models/%s' % (basedir,args1.carddir,f,f))
     os.chdir('models/%s' % (f))
     os.system('python write_param_card.py')
+    print "they write the parameter card here"
     #os.system('cp param_card.dat restrict_test.dat')
     os.chdir(('%s/%s_MG5_aMC_v'+MGrelease) % (basedir,procnamebase))
 
@@ -284,6 +286,10 @@ elif 'DiJets' in procnamebase:
     print "DiJets"
     medranges = args1.medrange
     dmranges = args1.hdmrange
+elif 'Monojet' in procnamebase or 'Hadronic' in procnamebase:
+    print "Monojet"
+    medranges = args1.medrange
+    dmranges = args1.dmrange
 else:
     print "NONE matches, faulty"
     exit 
@@ -301,11 +307,17 @@ for med    in medranges:
         if 'BBbar' in procnamebase:
             print "Interpreting BBbar"
             hdm = args1.hdmrange[0]
+        if 'Monojet' in procnamebase:
+            print "Interpreting Monojet"
+            hdm = args1.hdmrange[0]
+        if 'Hadronic' in procnamebase:
+            print "Interpreting Hadronic"
+            hdm = args1.hdmrange[0]
 
         print "med : ", med
         print "hs  : ", hdm
         print "dm  : ", dm
-        if 'BBbar' in procnamebase:
+        if 'BBbar' or 'Monojet' or 'Hadronic' in procnamebase:
             if not checkRestrict(restrict,med,dm):
                 print "Unphysical Phase Space"
                 continue
@@ -315,6 +327,12 @@ for med    in medranges:
         tmpHdm = hdm
 
         if procnamebase.find("BBbar"):
+            if med == 2*dm:
+                tmpDM = dm-10
+        if procnamebase.find("Monojet"):
+            if med == 2*dm:
+                tmpDM = dm-10
+        if procnamebase.find("Hadronic"):
             if med == 2*dm:
                 tmpDM = dm-10
 
