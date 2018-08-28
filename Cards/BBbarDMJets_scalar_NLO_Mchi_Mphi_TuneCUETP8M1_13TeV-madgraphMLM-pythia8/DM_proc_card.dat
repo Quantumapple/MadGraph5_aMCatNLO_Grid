@@ -1,8 +1,0 @@
-import DMsimp_s_spin0_4f_MED_XMASS_PROC-test
-# Define multiparticle labels
-generate       p p  > xd xd~ b b~    [QCD]
-#add process    p p  > xd xd~ b b~ j [QCD]
-output BBbarDMJet_scalar_NLO_Mchi-MED_Mphi-XMASS_TuneCUETP8M1_13TeV-madgraphMLM-pythia8
-
-
-

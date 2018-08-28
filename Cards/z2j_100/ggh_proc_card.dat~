@@ -1,5 +1,0 @@
-import model loop_sm
-generate       p p  > vm vm~ j   [QCD]
-add process    p p  > vm vm~ j j [QCD]
-output zjj_pt500_100 -nojpeg
-

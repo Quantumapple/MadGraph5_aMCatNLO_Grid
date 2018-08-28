@@ -1,5 +1,0 @@
-import model loop_sm
-generate    p p  > h j j 
-add process p p  > h j j j  
-output qqh01j_ptj20_100_v3 -nojpeg
-

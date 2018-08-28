@@ -1,5 +1,0 @@
-import model loop_sm
-generate    g g  > h t t~   [QCD]
-add process g g  > h t t~ j [QCD]
-output tth01j_ptj20_100_v4 -nojpeg
-

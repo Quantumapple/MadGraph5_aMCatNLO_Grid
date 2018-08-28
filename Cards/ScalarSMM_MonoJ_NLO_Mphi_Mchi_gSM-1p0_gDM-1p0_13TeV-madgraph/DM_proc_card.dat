@@ -1,7 +1,0 @@
-import SMM_MED_XMASS_PROC
-# Define multiparticle labels
-generate       p p  > xd xd~ j [QCD]
-output ScalarSMM_MonoJ_NLO_Mphi_MED_Mchi_XMASS_gSM-1p0_gDM-1p0_13TeV-madgraph_v2
-
-
-
