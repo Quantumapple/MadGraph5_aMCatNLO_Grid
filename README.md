@@ -2,6 +2,10 @@
 
 Clone the repo in lxplus@CERN in a clean environment.
 
+```
+git clone 
+```
+
 ## Prepare Generation configuration
 Generate Gridpack of your favourite processes by placing all necessary ```run_card.dat``` etc in the ```Cards``` folders. 
 To generate gridpack, for example, for Monojet process under dark higgs models. Do
