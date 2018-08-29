@@ -3,7 +3,7 @@
 Clone the repo in lxplus@CERN in a clean environment.
 
 ```
-git clone 
+git clone https://github.com/SiewYan/MadGraph5_aMCatNLO_Grid.git -b supermonojet2016
 ```
 
 ## Prepare Generation configuration
