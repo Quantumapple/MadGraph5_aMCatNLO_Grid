@@ -474,20 +474,13 @@ for med    in medranges:
                 job_file.write(('cp -r %s/%s_MG5_aMC_v'+MGrelease+'/PLUGIN     mgbasedir \n') % (basedir,procnamebase))
                 output  ='%s_tarball.tar.xz'                    % (procname)
                 job_file.write('XZ_OPT="--lzma2=preset=9,dict=512MiB" tar -cJpsf '+output+' mgbasedir process runcmsgrid.sh \n')
-                #job_file.write(('cp -r %s  %s/%s_MG5_aMC_v'+MGrelease+'/         \n') % (output,basedir,procnamebase))
-                #job_file.write(('%s rm  eos/cms/store/user/%s/gridpack/%s  \n') % (eos,user,output))
-                #job_file.write(('cmsStage %s   /store/user/%s/gridpack/%s  \n') % (output,user,output))
-                #job_file.write(('rm  /afs/cern.ch/work/s/%s/analysis/bb_MET_Analysis_13TeV/phil_mg5_test/MadGraph5_aMCatNLO_Grid/gridpack/%s  \n') % (user,output))
-                #job_file.write(('scp %s   /afs/cern.ch/work/s/%s/analysis/bb_MET_Analysis_13TeV/phil_mg5_test/MadGraph5_aMCatNLO_Grid/gridpack/%s  \n') % (output,user,output))
-                job_file.write(('rm   /eos/user/s/%s/gridpacks/%s  \n') % (user,output))
-                job_file.write(('scp %s  /eos/user/s/%s/gridpacks/%s  \n') % (output,user,output))
+                job_file.write(('mkdir -p /eos/user/${USER:0:1}/%s/gridpacks/ \n') % (user))
+                job_file.write(('rm   /eos/user/${USER:0:1}/%s/gridpacks/%s  \n') % (user,output))
+                job_file.write(('scp %s  /eos/user/${USER:0:1}/%s/gridpacks/%s  \n') % (output,user,output))
 
                 job_file.close()
                 os.chmod(('%s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh')             % (basedir,procnamebase,procname),0777)
             if os.path.isfile(('%s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh')        % (basedir,procnamebase,procname)):
-                #print "Looking",('%s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh')      % (basedir,procnamebase,procname)
-                #print "Loooking More",('%s/%s_MG5_aMC_v'+MGrelease+'/%s_tarball.tar.xz') % (basedir,procnamebase,procname)
-                #if not os.path.isfile(('%s/%s_MG5_aMC_v'+MGrelease+'/%s_tarball.tar.xz') % (basedir,procnamebase,procname)):
                 output     ='%s_tarball.tar.xz'                    % (procname)
                 if not fileExists(user,output):
                     os.system(('echo bsub -q  %s -R "rusage[mem=12000]" %s/%s_MG5_aMC_v'+MGrelease+'/MG_%s/integrate.sh') % (args1.queue,basedir,procnamebase,procname))
